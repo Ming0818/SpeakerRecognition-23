@@ -22,7 +22,7 @@ function varargout = speaker_recognition(varargin)
 
 % Edit the above text to modify the response to help speaker_recognition
 
-% Last Modified by GUIDE v2.5 27-Apr-2017 23:02:10
+% Last Modified by GUIDE v2.5 27-Apr-2017 23:45:05
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -153,6 +153,9 @@ function btnTraining_Callback(hObject, eventdata, handles)
     
     size = length(files);
     
+    gaussianValue = str2double(get(handles.txtGaussian, 'String'));
+    loopValue = str2double(get(handles.txtLoopIterator, 'String'));
+    
     progressbar
 
     for i = 1:size
@@ -167,9 +170,10 @@ function btnTraining_Callback(hObject, eventdata, handles)
             
             a = audioread(fileName);
             b = mfcc(a);
-            g1_0 = gNew(12, 16, 'diag');
-            g2_0 = gInit(g1_0, b, 500);
-            g3_0 = gRE(g2_0, b, 500);
+            g1_0 = gNew(12, gaussianValue, 'diag');
+            g2_0 = gInit(g1_0, b, loopValue);
+            g3_0 = gRE(g2_0, b, loopValue);
+            
             f_arr = [f_arr; g3_0];
                         
             pause(0.01) % Do something important
@@ -313,6 +317,50 @@ function listResult_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function txtGaussian_Callback(hObject, eventdata, handles)
+% hObject    handle to txtGaussian (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of txtGaussian as text
+%        str2double(get(hObject,'String')) returns contents of txtGaussian as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function txtGaussian_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to txtGaussian (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function txtLoopIterator_Callback(hObject, eventdata, handles)
+% hObject    handle to txtLoopIterator (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of txtLoopIterator as text
+%        str2double(get(hObject,'String')) returns contents of txtLoopIterator as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function txtLoopIterator_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to txtLoopIterator (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
