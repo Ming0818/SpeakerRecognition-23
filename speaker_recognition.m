@@ -137,9 +137,17 @@ function btnTraining_Callback(hObject, eventdata, handles)
 % hObject    handle to btnTraining (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-    files = subdir(fullfile(get(handles.txtTrainingDirectory, 'String'), '', '', '*.wav'));
+    trainingPath = get(handles.txtTrainingDirectory, 'String');
     
-    global f_arr;
+    if isempty(trainingPath)
+        mode = struct('WindowStyle','modal', 'Interpreter','tex');
+        errordlg('Could not find training data.', 'Speaker Recognition', mode);
+        return;
+    end
+    
+    files = subdir(fullfile(trainingPath, '', '', '*.wav'));
+    
+    %global f_arr;
     
     f_arr = [];
     
@@ -156,11 +164,14 @@ function btnTraining_Callback(hObject, eventdata, handles)
             new_name = [initial_name; {strjoin({'Training', fileName}, ' ')}];
             set(handles.listbox1, 'String', new_name);
             
+            %DISP(fileName)
+            
             a = audioread(fileName);
             b = mfcc(a);
             g1_0 = gNew(12, 16, 'diag');
             g2_0 = gInit(g1_0, b, 100);
-            f_arr = [f_arr; gRE(g2_0, b, 100)];
+            g3_0 = gRE(g2_0, b, 100);
+            f_arr = [f_arr; g3_0];
                         
             pause(0.01) % Do something important
             progressbar(i/size) % Update figure
@@ -168,9 +179,10 @@ function btnTraining_Callback(hObject, eventdata, handles)
         % Do stuff
     end 
     
+    disp('Save training data');
+    save('training.mat', 'f_arr');
+    
     uiwait(msgbox('Training Completed', 'Success', 'modal'));
-
-
 
 function txtTestDirectory_Callback(hObject, eventdata, handles)
 % hObject    handle to txtTestDirectory (see GCBO)
@@ -208,16 +220,23 @@ function btnTest_Callback(hObject, eventdata, handles)
 % hObject    handle to btnTest (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-    x_w = audioread(get(handles.txtTestDirectory, 'String'));
+    testPath = get(handles.txtTestDirectory, 'String');
+    if isempty(testPath)
+        mode = struct('WindowStyle','modal', 'Interpreter','tex');
+        errordlg('Could not find test data.', 'Speaker Recognition', mode);
+        return;
+    end
+    
+    x_w = audioread(testPath);
     x = mfcc(x_w);
     
-    global f_arr;
+    f_arr = [];
+    
+    load('training.mat', 'f_arr');
     
     index = 0;
     maxPercent = 0;
-    
-    p_arr = [];
-    
+     
     for i=1:20
         per = mean(gPr(f_arr(i), x));
         
@@ -227,7 +246,7 @@ function btnTest_Callback(hObject, eventdata, handles)
         end
     end
     
-    set(handles.txtSpeaker, 'String', num2str(index));
+    set(handles.txtSpeaker, 'String', strcat('VIVOSSPK', sprintf('%02d', index)));
     
     if index == 1
         set(handles.chkCorrect, 'Value', 1)
