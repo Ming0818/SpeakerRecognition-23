@@ -298,7 +298,7 @@ function btnTest_Callback(hObject, eventdata, handles)
         end
     end
     
-    uiwait(msgbox(sprintf('Test Completed\n Sum File = %2.3g\n True = %2.3g\n False = %2.3g',size, numTrue, size - numTrue), 'Completed', 'modal'));
+    uiwait(msgbox(sprintf('Test Completed\nSum File = %2.3g\nTrue = %2.3g\nFalse = %2.3g',size, numTrue, size - numTrue), 'Completed', 'modal'));
 
 % --- Executes on selection change in listResult.
 function listResult_Callback(hObject, eventdata, handles)
