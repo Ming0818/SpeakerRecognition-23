@@ -280,7 +280,7 @@ function btnTest_Callback(hObject, eventdata, handles)
                 %set(handles.chkIncorrect, 'Value', 0)
                 disp('true');
                 
-                new_name = [new_name;'True';sprintf('\n')];
+                new_name = [new_name;num2str(index);'True';sprintf('\n')];
                 
                 numTrue = numTrue + 1;
             else
@@ -288,7 +288,7 @@ function btnTest_Callback(hObject, eventdata, handles)
                 %set(handles.chkIncorrect, 'Value', 1)
                 disp('false');
                 
-                new_name = [new_name;'False';sprintf('\n')];
+                new_name = [new_name;num2str(index);'False';sprintf('\n')];
             end
             
             set(handles.listResult, 'String', new_name);
