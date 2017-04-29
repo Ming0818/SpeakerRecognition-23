@@ -22,7 +22,7 @@ function varargout = speaker_recognition(varargin)
 
 % Edit the above text to modify the response to help speaker_recognition
 
-% Last Modified by GUIDE v2.5 27-Apr-2017 23:45:05
+% Last Modified by GUIDE v2.5 29-Apr-2017 08:54:43
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -227,6 +227,9 @@ function btnTest_Callback(hObject, eventdata, handles)
 % hObject    handle to btnTest (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+    set(handles.txtCorrect, 'String', '');
+    set(handles.txtIncorrect, 'String', '');
+    
     testPath = get(handles.txtTestDirectory, 'String');
     
     if isempty(testPath)
@@ -264,8 +267,6 @@ function btnTest_Callback(hObject, eventdata, handles)
 
             for j=1:20
                 per = mean(gPr(f_arr(j), x));
-                
-                disp(per);
 
                 if per > maxPercent
                     maxPercent = per;
@@ -303,6 +304,9 @@ function btnTest_Callback(hObject, eventdata, handles)
             progressbar(i / size) % Update figure
         end
     end
+    
+    set(handles.txtCorrect, 'String', num2str(numTrue / size * 100));
+    set(handles.txtIncorrect, 'String', num2str((size - numTrue) / size * 100));
     
     uiwait(msgbox(sprintf('Test Completed\nSum File = %2.3g\nTrue = %2.3g\nFalse = %2.3g',size, numTrue, size - numTrue), 'Completed', 'modal'));
 
@@ -363,6 +367,50 @@ function txtLoopIterator_Callback(hObject, eventdata, handles)
 % --- Executes during object creation, after setting all properties.
 function txtLoopIterator_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to txtLoopIterator (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function txtCorrect_Callback(hObject, eventdata, handles)
+% hObject    handle to txtCorrect (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of txtCorrect as text
+%        str2double(get(hObject,'String')) returns contents of txtCorrect as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function txtCorrect_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to txtCorrect (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function txtIncorrect_Callback(hObject, eventdata, handles)
+% hObject    handle to txtIncorrect (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of txtIncorrect as text
+%        str2double(get(hObject,'String')) returns contents of txtIncorrect as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function txtIncorrect_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to txtIncorrect (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
