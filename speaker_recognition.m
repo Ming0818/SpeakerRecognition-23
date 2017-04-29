@@ -264,6 +264,8 @@ function btnTest_Callback(hObject, eventdata, handles)
 
             for j=1:20
                 per = mean(gPr(f_arr(j), x));
+                
+                disp(per);
 
                 if per > maxPercent
                     maxPercent = per;
@@ -274,13 +276,17 @@ function btnTest_Callback(hObject, eventdata, handles)
             %set(handles.txtSpeaker, 'String', strcat('VIVOSSPK', sprintf('%02d', index)));
             
             temp = floor(i / 20) + 1;
+            
+            if (mod(i, 20) == 0)
+                temp = temp - 1;
+            end
 
             if index == temp
                 %set(handles.chkCorrect, 'Value', 1)
                 %set(handles.chkIncorrect, 'Value', 0)
                 disp('true');
                 
-                new_name = [new_name;num2str(index);'True';sprintf('\n')];
+                new_name = [new_name;strcat('Speaker: VIVOSSPK', sprintf('%02d', index));'True';sprintf('\n')];
                 
                 numTrue = numTrue + 1;
             else
@@ -288,7 +294,7 @@ function btnTest_Callback(hObject, eventdata, handles)
                 %set(handles.chkIncorrect, 'Value', 1)
                 disp('false');
                 
-                new_name = [new_name;num2str(index);'False';sprintf('\n')];
+                new_name = [new_name;strcat('Speaker: VIVOSSPK', sprintf('%02d', index));'False';sprintf('\n')];
             end
             
             set(handles.listResult, 'String', new_name);
