@@ -22,7 +22,7 @@ function varargout = speaker_recognition(varargin)
 
 % Edit the above text to modify the response to help speaker_recognition
 
-% Last Modified by GUIDE v2.5 29-Apr-2017 08:54:43
+% Last Modified by GUIDE v2.5 03-May-2017 21:24:38
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -137,6 +137,7 @@ function btnTraining_Callback(hObject, eventdata, handles)
 % hObject    handle to btnTraining (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+    tic;
     trainingPath = get(handles.txtTrainingDirectory, 'String');
     
     if isempty(trainingPath)
@@ -185,7 +186,11 @@ function btnTraining_Callback(hObject, eventdata, handles)
     disp('Save training data');
     save('training.mat', 'f_arr');
     
-    uiwait(msgbox('Training Completed', 'Success', 'modal'));
+    endtime = toc;
+    
+    set(handles.txtTimeTraining, 'String', num2str(endtime));
+    
+    uiwait(msgbox(sprintf('Training Completed\nTime = %2.3g',endtime), 'Success', 'modal'));
 
 function txtTestDirectory_Callback(hObject, eventdata, handles)
 % hObject    handle to txtTestDirectory (see GCBO)
@@ -229,6 +234,9 @@ function btnTest_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
     set(handles.txtCorrect, 'String', '');
     set(handles.txtIncorrect, 'String', '');
+    set(handles.txtTimeTest, 'String', '');
+    
+    tic;
     
     testPath = get(handles.txtTestDirectory, 'String');
     
@@ -305,10 +313,13 @@ function btnTest_Callback(hObject, eventdata, handles)
         end
     end
     
+    endtime = toc;
+    
     set(handles.txtCorrect, 'String', num2str(numTrue / size * 100));
     set(handles.txtIncorrect, 'String', num2str((size - numTrue) / size * 100));
+    set(handles.txtTimeTest, 'String', num2str(endtime));
     
-    uiwait(msgbox(sprintf('Test Completed\nSum File = %2.3g\nTrue = %2.3g\nFalse = %2.3g',size, numTrue, size - numTrue), 'Completed', 'modal'));
+    uiwait(msgbox(sprintf('Test Completed\nSum File = %2.3g\nTrue = %2.3g\nFalse = %2.3g\nTime = %2.3g',size, numTrue, size - numTrue, endtime), 'Completed', 'modal'));
 
 % --- Executes on selection change in listResult.
 function listResult_Callback(hObject, eventdata, handles)
@@ -419,3 +430,70 @@ function txtIncorrect_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+
+function txtTimeTraining_Callback(hObject, eventdata, handles)
+% hObject    handle to txtTimeTraining (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of txtTimeTraining as text
+%        str2double(get(hObject,'String')) returns contents of txtTimeTraining as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function txtTimeTraining_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to txtTimeTraining (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function txtTimeTest_Callback(hObject, eventdata, handles)
+% hObject    handle to txtTimeTest (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of txtTimeTest as text
+%        str2double(get(hObject,'String')) returns contents of txtTimeTest as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function txtTimeTest_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to txtTimeTest (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in btnTestClear.
+function btnTestClear_Callback(hObject, eventdata, handles)
+% hObject    handle to btnTestClear (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+    set(handles.listResult, 'String', '');
+    set(handles.txtCorrect, 'String', '');
+    set(handles.txtIncorrect, 'String', '');
+    set(handles.txtTimeTest, 'String', '');
+
+
+% --- Executes on button press in btnTrainingClear.
+function btnTrainingClear_Callback(hObject, eventdata, handles)
+% hObject    handle to btnTrainingClear (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+    set(handles.listbox1, 'String', '');
+    set(handles.txtTimeTraining, 'String', '');
+    delete 'training.mat';

@@ -66,11 +66,7 @@
       <file>${PROJECT_ROOT}\gPr.p</file>
       <file>${PROJECT_ROOT}\gRE.p</file>
       <file>${PROJECT_ROOT}\mfcc.p</file>
-      <file>${PROJECT_ROOT}\preference_saving_gui.fig</file>
-      <file>${PROJECT_ROOT}\preference_saving_gui.m</file>
       <file>${PROJECT_ROOT}\progressbar.m</file>
-      <file>${PROJECT_ROOT}\reloading_param.fig</file>
-      <file>${PROJECT_ROOT}\reloading_param.m</file>
       <file>${PROJECT_ROOT}\speaker_recognition.fig</file>
       <file>${PROJECT_ROOT}\subdir.m</file>
     </fileset.resources>
