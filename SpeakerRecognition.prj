@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project plugin="plugin.deploytool" plugin-version="1.0">
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="SpeakerRecognition" location="D:\Pratice\SLP\Thuc_hanh_1" file="D:\Pratice\SLP\Thuc_hanh_1\SpeakerRecognition.prj" preferred-package-type="package.type.exe" build-checksum="3988710665" preferred-package-location="D:\Pratice\SLP\Thuc_hanh_1\SpeakerRecognition">
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="SpeakerRecognition" location="D:\Pratice\SLP\Thuc_hanh_1" file="D:\Pratice\SLP\Thuc_hanh_1\SpeakerRecognition.prj" preferred-package-type="package.type.exe" build-checksum="268312655" preferred-package-location="D:\Pratice\SLP\Thuc_hanh_1\SpeakerRecognition">
     <param.project.name>D:\Pratice\SLP\Thuc_hanh_1\SpeakerRecognition.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>SpeakerRecognition</param.appname>
@@ -66,7 +66,11 @@
       <file>${PROJECT_ROOT}\gPr.p</file>
       <file>${PROJECT_ROOT}\gRE.p</file>
       <file>${PROJECT_ROOT}\mfcc.p</file>
+      <file>${PROJECT_ROOT}\preference_saving_gui.fig</file>
+      <file>${PROJECT_ROOT}\preference_saving_gui.m</file>
       <file>${PROJECT_ROOT}\progressbar.m</file>
+      <file>${PROJECT_ROOT}\reloading_param.fig</file>
+      <file>${PROJECT_ROOT}\reloading_param.m</file>
       <file>${PROJECT_ROOT}\speaker_recognition.fig</file>
       <file>${PROJECT_ROOT}\subdir.m</file>
     </fileset.resources>
